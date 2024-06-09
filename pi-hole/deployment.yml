@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole-deployment
+  namespace: hole
+  labels:
+    app: pihole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      containers:
+        - name: pihole
+          image: pihole/pihole:latest
+          ports:
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: website
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: WEBPASSWORD
+              valueFrom:
+                  secretKeyRef:
+                    name: pi-hole
+                    key: admin-web.txt
+            - name: WEBLOGS_STDOUT
+              value: "1"
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 2Gi
+              cpu: "1"
+          volumeMounts:
+          - name: pihole-local-etc-volume
+            mountPath: "/etc/pihole"
+          - name: pihole-local-dnsmasq-volume
+            mountPath: "/etc/dnsmasq.d"
+      volumes:
+      - name: pihole-local-etc-volume
+        persistentVolumeClaim:
+          claimName: pihole-local-etc-claim
+      - name: pihole-local-dnsmasq-volume
+        persistentVolumeClaim:
+          claimName: pihole-local-dnsmasq-claim

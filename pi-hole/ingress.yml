@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefid-deployment-host
+  namespace: hole
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: "pihole.home"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pihole-webserver
+            port:
+              number: 80
