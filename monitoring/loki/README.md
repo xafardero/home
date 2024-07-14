@@ -1,0 +1,1 @@
+helm upgrade --install --values loki.yaml loki grafana/loki-stack -n monitoring
