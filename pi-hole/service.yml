@@ -36,3 +36,21 @@ spec:
   selector:
     app: pihole
   externalTrafficPolicy: Local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole-dhcp-service
+  namespace: hole
+  labels:
+    app: pihole-dhcp
+spec:
+  type: NodePort
+  ports:
+    - port: 67
+      targetPort: 67
+      protocol: TCP
+      name: dhcp
+  selector:
+    app: pihole
+  externalTrafficPolicy: Local
