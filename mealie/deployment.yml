@@ -29,6 +29,10 @@ spec:
               value: "DEBUG"
             - name: DB_ENGINE
               value: sqlite
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: TOKEN_TIME
+              value: "256"
           resources:
             requests:
               memory: 128Mi
