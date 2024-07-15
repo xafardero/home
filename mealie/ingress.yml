@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefid-deployment-host
+  namespace: prod
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: "mealie.home"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mealie-webserver
+            port:
+              number: 80
