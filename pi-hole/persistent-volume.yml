@@ -22,7 +22,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - xafardero
+            - xaf-master
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -47,4 +47,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - xafardero
+            - xaf-master

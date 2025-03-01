@@ -56,6 +56,11 @@ spec:
             mountPath: "/etc/pihole"
           - name: pihole-local-dnsmasq-volume
             mountPath: "/etc/dnsmasq.d"
+      tolerations:
+        - key: app
+          operator: "Equal"
+          value: "pi-hole"
+          effect: "NoSchedule"
       volumes:
       - name: pihole-local-etc-volume
         persistentVolumeClaim:
