@@ -9,3 +9,4 @@ Installed apps:
 * 📄 [Loki](monitoring/loki)
 * 🗄️ [Prometheus](monitoring/prometheus/)
 * 🕵️ [Grafana](monitoring/grafana/)
+* 📦 [ArgoCD](argocd/README.md)
