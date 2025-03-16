@@ -1,4 +1,4 @@
-# Basic Kubernetes dashboard
+# 📦 Basic Kubernetes dashboard
 
 We use the https://github.com/kubernetes/dashboard/tree/master repo.
 
