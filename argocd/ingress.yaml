@@ -1,18 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: traefik-argocd
+  name: ingress-argocd
   namespace: argocd
+  annotations:
+    cert-manager.io/acme-challenge-type: dns01
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/dns01-provider: cloudflare
 spec:
   ingressClassName: traefik
   rules:
-  - host: argocd.home
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: argocd-server
-            port:
-              name: http
+    - host: argocd.xaf.world
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: argocd-server
+              port:
+                name: http
+  tls:
+    - hosts:
+        - argocd.xaf.world
+      secretName: argocd-tls
