@@ -1,18 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grafana
+  name: ingress-grafana
   namespace: monitoring
+  annotations:
+    cert-manager.io/acme-challenge-type: dns01
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/dns01-provider: cloudflare
 spec:
   ingressClassName: traefik
   rules:
-  - host: "grafana.home"
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: grafana
-            port:
-              number: 3000
+    - host: grafana.xaf.world
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: grafana
+              port:
+                number: 3000
+  tls:
+    - hosts:
+        - grafana.xaf.world
+      secretName: grafana-tls
