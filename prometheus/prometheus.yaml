@@ -1,8 +1,8 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: prometheus-deployment
-  namespace: monitoring
+  name: prometheus-statefulset
+  namespace: prometheus
   labels:
     app: prometheus-server
 spec:
@@ -10,6 +10,7 @@ spec:
   selector:
     matchLabels:
       app: prometheus-server
+  serviceName: prometheus-server
   template:
     metadata:
       labels:
@@ -19,9 +20,9 @@ spec:
         - name: prometheus
           image: prom/prometheus:v2.53.1
           args:
-            - "--storage.tsdb.retention.time=12h"
-            - "--config.file=/etc/prometheus/prometheus.yml"
-            - "--storage.tsdb.path=/prometheus/"
+            - --storage.tsdb.retention.size=10Gi
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.path=/prometheus/
           ports:
             - containerPort: 9090
           resources:
@@ -34,14 +35,28 @@ spec:
           volumeMounts:
             - name: prometheus-config-volume
               mountPath: /etc/prometheus/
-            - name: prometheus-storage-volume
+            - name: prometheus-local-data-volume
               mountPath: /prometheus/
       volumes:
         - name: prometheus-config-volume
           configMap:
             defaultMode: 420
             name: prometheus-server-conf
-  
-        - name: prometheus-storage-volume
-          emptyDir: {}
-
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+  volumeClaimTemplates:
+    - metadata:
+        name: prometheus-local-data-volume
+        namespace: prometheus
+      spec:
+        storageClassName: local
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        selector:
+          matchLabels:
+            directory: prometheus-data
