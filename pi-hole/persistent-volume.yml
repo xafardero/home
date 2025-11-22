@@ -11,7 +11,7 @@ spec:
     storage: 1Gi
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
     path: /var/pihole/etc
@@ -22,7 +22,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-            - xaf-master
+            - master
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -36,7 +36,7 @@ spec:
     storage: 1Gi
   accessModes:
   - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
     path: /var/pihole/dnsmasq
@@ -47,4 +47,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-            - xaf-master
+            - master

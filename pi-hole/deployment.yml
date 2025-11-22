@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: pihole
-          image: pihole/pihole:2024.07.0
+          image: pihole/pihole:2025.11.0
           ports:
             - name: dns-tcp
               containerPort: 53
@@ -34,13 +34,15 @@ spec:
           env:
             - name: TZ
               value: "Europe/Madrid"
-            - name: WEBPASSWORD
+            - name: FTLCONF_dns_listeningMode
+              value: "all"
+            - name: FTLCONF_dns_bogusPriv
+              value: "false"
+            - name: FTLCONF_webserver_api_password
               valueFrom:
                   secretKeyRef:
                     name: pi-hole
                     key: admin-web.txt
-            - name: WEBLOGS_STDOUT
-              value: "1"
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
@@ -56,11 +58,6 @@ spec:
             mountPath: "/etc/pihole"
           - name: pihole-local-dnsmasq-volume
             mountPath: "/etc/dnsmasq.d"
-      tolerations:
-        - key: app
-          operator: "Equal"
-          value: "pi-hole"
-          effect: "NoSchedule"
       volumes:
       - name: pihole-local-etc-volume
         persistentVolumeClaim:
