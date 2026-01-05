@@ -1,6 +1,7 @@
+
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: mealie
+  name: xabits
   labels:
-    name: mealie
+    name: xabits

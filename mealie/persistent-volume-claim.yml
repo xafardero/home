@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mealie-local-data-claim
-  namespace: prod
+  namespace: mealie
 spec:
   storageClassName: local
   accessModes:

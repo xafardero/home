@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-mealie
-  namespace: prod
+  namespace: mealie
   annotations:
     cert-manager.io/acme-challenge-type: dns01
     cert-manager.io/cluster-issuer: letsencrypt-prod

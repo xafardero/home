@@ -3,23 +3,23 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mealie-local-data
-  namespace: prod
+  namespace: mealie
   labels:
     directory: mealie-data
 spec:
   capacity:
     storage: 1Gi
   accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Delete
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local
   local:
     path: /var/mealie-data
   nodeAffinity:
     required:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - xaf-agent-01
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+              - xaf-agent-01

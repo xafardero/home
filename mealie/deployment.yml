@@ -1,8 +1,9 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mealie-deployment
-  namespace: prod
+  namespace: mealie
   labels:
     app: mealie
 spec:
@@ -17,7 +18,7 @@ spec:
     spec:
       containers:
         - name: mealie
-          image: ghcr.io/mealie-recipes/mealie:v1.10.2
+          image: ghcr.io/mealie-recipes/mealie:v2.8.0
           ports:
             - name: website
               containerPort: 9000
@@ -26,11 +27,11 @@ spec:
             - name: ALLOW_SIGNUP
               value: "false"
             - name: LOG_LEVEL
-              value: "DEBUG"
+              value: DEBUG
             - name: DB_ENGINE
               value: sqlite
             - name: TZ
-              value: "Europe/Madrid"
+              value: Europe/Madrid
             - name: TOKEN_TIME
               value: "256"
           resources:
@@ -42,7 +43,7 @@ spec:
               cpu: "1"
           volumeMounts:
           - name: mealie-local-data-volume
-            mountPath: "/app/data"
+            mountPath: /app/data
       volumes:
       - name: mealie-local-data-volume
         persistentVolumeClaim:
