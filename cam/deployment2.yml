@@ -42,6 +42,7 @@ metadata:
     name: agent2-svc
 spec:
   type: LoadBalancer
+  loadBalancerIP: 192.168.1.204
   ports:
     - port: 80
       targetPort: 80

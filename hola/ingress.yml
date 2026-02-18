@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hola-ingress
+  namespace: hola
+  annotations:
+    cert-manager.io/acme-challenge-type: dns01
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/dns01-provider: cloudflare
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: hola.xaf.world
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hola-service
+            port:
+              number: 80
+  tls:
+    - hosts:
+        - hola.xaf.world
+      secretName: hola-tls

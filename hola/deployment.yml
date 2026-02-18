@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hola-deployment
+  namespace: hola
+  labels:
+    app: hola
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hola
+  template:
+    metadata:
+      labels:
+        app: hola
+    spec:
+      containers:
+      - name: hola-web
+        image: hashicorp/http-echo:latest
+        args:
+          - "-text=Hola! Welcome to hola.xaf.world"
+        ports:
+        - containerPort: 5678
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
