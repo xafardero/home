@@ -1,0 +1,25 @@
+---
+extends: default
+
+ignore: |
+  monitoring/loki/loki.yaml
+
+rules:
+  line-length:
+    max: 250
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+  truthy:
+    allowed-values: ["true", "false", "yes", "no"]
+    check-keys: false
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 1
+  document-start: disable
+  indentation:
+    spaces: 2
+    indent-sequences: whatever
+    check-multi-line-strings: false
+  empty-lines:
+    max: 1

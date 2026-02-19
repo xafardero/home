@@ -24,7 +24,7 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "1000m"
-          requests: 
+          requests:
             memory: 500M
             cpu: "500m"
         volumeMounts:
@@ -38,5 +38,5 @@ spec:
           emptyDir: {}
         - name: grafana-datasources
           configMap:
-              defaultMode: 420
-              name: grafana-datasources
+            defaultMode: 420
+            name: grafana-datasources

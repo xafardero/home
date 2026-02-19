@@ -1,0 +1,70 @@
+name: Validate Manifests
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "**/*.yml"
+      - "**/*.yaml"
+      - ".yamllint"
+      - ".github/workflows/validate.yml"
+  pull_request:
+    paths:
+      - "**/*.yml"
+      - "**/*.yaml"
+      - ".yamllint"
+      - ".github/workflows/validate.yml"
+
+jobs:
+  yamllint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Run yamllint
+        run: yamllint -f github .
+
+  kubeconform:
+    name: Kubernetes Schema Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install kubeconform
+        run: |
+          KUBECONFORM_VERSION="v0.6.7"
+          curl -sSL "https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz" \
+            | tar xz -C /usr/local/bin kubeconform
+
+      - name: Validate Kubernetes manifests
+        run: |
+          find . -name '*.yml' -o -name '*.yaml' \
+            | grep -v './monitoring/loki/' \
+            | grep -v './ansible/' \
+            | grep -v './harbor/values.yml' \
+            | grep -v './.github/' \
+            | grep -v './.yamllint' \
+            | xargs kubeconform \
+              -summary \
+              -output json \
+              -ignore-missing-schemas \
+              -schema-location default \
+              -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+              -strict
+
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
