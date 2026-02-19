@@ -1,9 +1,0 @@
-expose:
-  type: ingress
-  ingress:
-    hosts:
-      core: "harbor.xaf.world"
-persistence:
-  enabled: true
-externalURL: "https://harbor.xaf.world"
-harborAdminPassword: admin
