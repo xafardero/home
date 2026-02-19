@@ -18,4 +18,3 @@ spec:
           image: xafardero/xabits:0.0.2
           ports:
             - containerPort: 5000
-

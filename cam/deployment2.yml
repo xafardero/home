@@ -27,12 +27,12 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+          # find full list of environment variables here: https://github.com/kerberos-io/agent#override-with-environment-variables
           env:
             - name: AGENT_NAME
               value: str
             - name: AGENT_CAPTURE_IPCAMERA_RTSP
               value: rtsp://192.168.1.155:8554/cam
-            # find full list of environment variables here: https://github.com/kerberos-io/agent#override-with-environment-variables
 ---
 apiVersion: v1
 kind: Service

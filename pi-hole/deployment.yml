@@ -40,9 +40,9 @@ spec:
               value: "false"
             - name: FTLCONF_webserver_api_password
               valueFrom:
-                  secretKeyRef:
-                    name: pi-hole
-                    key: admin-web.txt
+                secretKeyRef:
+                  name: pi-hole
+                  key: admin-web.txt
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
