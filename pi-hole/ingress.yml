@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: pihole.xaf.world
+  - host: pihole.xafardero.us
     http:
       paths:
       - path: /
@@ -22,5 +22,5 @@ spec:
               number: 80
   tls:
     - hosts:
-        - pihole.xaf.world
+        - pihole.xafardero.us
       secretName: pihole-tls

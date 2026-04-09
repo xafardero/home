@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: grafana.xaf.world
+    - host: grafana.xafardero.us
       http:
         paths:
         - path: /
@@ -22,5 +22,5 @@ spec:
                 number: 3000
   tls:
     - hosts:
-        - grafana.xaf.world
+        - grafana.xafardero.us
       secretName: grafana-tls

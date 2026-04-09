@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: prometheus-statefulset
-  namespace: prometheus
+  namespace: monitoring
   labels:
     app: prometheus-server
 spec:
