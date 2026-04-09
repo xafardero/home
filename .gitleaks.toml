@@ -1,0 +1,22 @@
+# Gitleaks configuration for xafardero/home
+# Extends the default ruleset and adds repo-specific allowlists.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Known-safe patterns for this Kubernetes home-cluster repo"
+
+regexes = [
+  # Kubernetes secretKeyRef blocks reference secret keys by name, not values
+  '''secretKeyRef:''',
+  # Empty or placeholder env var values
+  '''value:\s*["']?["']?$''',
+  # Kubernetes type field that looks like a credential type (e.g. kubernetes.io/service-account-token)
+  '''type:\s+kubernetes\.io/''',
+]
+
+paths = [
+  # Auto-generated Loki config excluded from all other checks too
+  '''monitoring/loki/loki\.yaml''',
+]
